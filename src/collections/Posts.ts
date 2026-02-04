@@ -2,12 +2,17 @@ import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { richText } from 'payload/shared'
 import { Media } from './Media'
+import { slugify } from 'lib/slugify'
 export const Posts: CollectionConfig = {
   slug: 'posts',
   access: {
     read: () => true,
   },
   fields: [
+    {
+      name: 'slug',
+      type: 'text',
+    },
     {
       name: 'title',
       type: 'text',
@@ -41,4 +46,14 @@ export const Posts: CollectionConfig = {
       ],
     },
   ],
+  hooks: {
+    beforeChange: [
+      (args) => {
+        // console.log(args)
+        const title = args.data.title
+        const newSlug = slugify(title)
+        args.data.slug = newSlug
+      },
+    ],
+  },
 }
