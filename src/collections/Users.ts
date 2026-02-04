@@ -9,5 +9,18 @@ export const Users: CollectionConfig = {
   fields: [
     // Email added by default
     // Add more fields as needed
+    {
+      name: 'roles',
+      type: 'select',
+      saveToJWT: true,
+      hasMany: true,
+      options: [
+        { label: 'Admin', value: 'admin' },
+        {
+          label: 'User',
+          value: 'user',
+        },
+      ],
+    },
   ],
 }
