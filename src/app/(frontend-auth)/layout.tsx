@@ -1,5 +1,6 @@
 import React from 'react'
 import 'dotenv/config'
+import './styles.css'
 
 const websiteName = process.env.WEBSITE_NAME
 
