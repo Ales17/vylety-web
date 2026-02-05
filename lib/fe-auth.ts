@@ -5,11 +5,10 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 const payload = await getPayload({ config })
 import { cookies } from 'next/headers'
-import { password } from 'payload/shared'
 
 const tokenCookieName = 'payload-token'
 
-export async function login(formData: FormData) {
+export async function login(initialState: any, formData: FormData) {
   'use server'
 
   const rawData = {
@@ -32,7 +31,7 @@ export async function login(formData: FormData) {
   if (!validatedFields.success) {
     console.log('error validating')
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Validate errors!', //errors: validatedFields.error.flatten().fieldErrors,
     }
   }
   try {
@@ -51,7 +50,9 @@ export async function login(formData: FormData) {
       showHiddenFields: true,
     })
     //console.log(result)
-  } catch (err: any) {}
+  } catch (err: any) {
+    console.error(err)
+  }
 
   if (result && result.token) {
     const cookieStore = await cookies()
@@ -61,6 +62,8 @@ export async function login(formData: FormData) {
     })
     redirect('/')
   }
+
+  return { message: 'Přihlášení se nezdařilo' }
 }
 
 export async function logout() {
