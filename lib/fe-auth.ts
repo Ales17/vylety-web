@@ -1,21 +1,29 @@
 'use server'
+
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 const payload = await getPayload({ config })
+import { cookies } from 'next/headers'
 
-interface Props {
-  success: boolean
-}
+const tokenCookieName = 'payload-token'
 
-export async function login(email: string, password: string) {
+export async function login(formData: FormData) {
+  'use server'
+
+  const rawFormData = {
+    email: formData.get('email'),
+    password: formData.get('password'),
+  }
+
+  let result
   try {
-    await payload.login({
+    result = await payload.login({
       collection: 'users', // required
       data: {
         // required
-        email: email,
-        password: password,
+        email: rawFormData.email,
+        password: rawFormData.password,
       },
       //req: req, // optional, pass a Request object to be provided to all hooks
       depth: 2,
@@ -24,13 +32,21 @@ export async function login(email: string, password: string) {
       overrideAccess: false,
       showHiddenFields: true,
     })
+    //console.log(result)
+  } catch (err: any) {}
 
-    return {
-      success: true,
-    }
-  } catch (err: any) {
-    return {
-      success: false,
-    }
+  if (result && result.token) {
+    const cookieStore = await cookies()
+    cookieStore.set(tokenCookieName, result?.token, {
+      path: '/',
+      httpOnly: true,
+    })
+    redirect('/')
   }
+}
+
+export async function logout() {
+  const cookieStore = await cookies()
+  cookieStore.delete(tokenCookieName)
+  redirect('login')
 }
