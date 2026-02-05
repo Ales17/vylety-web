@@ -8,9 +8,6 @@ export default function Login() {
       <form action={login}>
         <Input type={'email'} name={'email'} placeholder="email@email.cz" label="E-mail" />
         <Input type="password" name="password" placeholder="******" label="Heslo" />
-        {/* <div>
-          <input type="submit" value={'Přihlásit se'} />
-        </div> */}
         <Button label={'Přihlásit se'} variant="primary" />
       </form>
     </div>
