@@ -1,8 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { richText } from 'payload/shared'
-import { Media } from './Media'
-import { slugify } from 'lib/slugify'
+import { slugify } from 'lib/string-methods'
 export const Posts: CollectionConfig = {
   slug: 'posts',
   access: {
