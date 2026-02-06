@@ -32,8 +32,8 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
 export default function RichTextDefault(props: Props) {
   const { data, ...rest } = props
   return (
-    <>
+    <div className="prose">
       <RichText converters={jsxConverters} data={data} />
-    </>
+    </div>
   )
 }
