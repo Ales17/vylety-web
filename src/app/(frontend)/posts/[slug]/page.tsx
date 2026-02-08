@@ -5,9 +5,12 @@ import config from '@/payload.config'
 import { getIdFromSlug } from 'lib/string-methods'
 import { getPostById } from 'lib/PostService'
 import SinglePost from '@/components/SinglePost'
+import PageWrapper from '@/components/PageWrapper'
+
 interface Props {
   params: Promise<{ slug: string }>
 }
+
 export default async function Page({ params }: Props) {
   const headers = await nextHeaders()
 
@@ -25,12 +28,13 @@ export default async function Page({ params }: Props) {
 
   if (entityId == null) {
     return <>Neplatný odkaz</>
-  } else {
-    const post = await getPostById(entityId)
-    return (
-      <>
-        <SinglePost post={post} />
-      </>
-    )
   }
+
+  const post = await getPostById(entityId)
+
+  return (
+    <PageWrapper pageName={post.title}>
+      <SinglePost post={post} />
+    </PageWrapper>
+  )
 }
