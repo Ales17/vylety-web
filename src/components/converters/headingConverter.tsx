@@ -6,7 +6,7 @@ export const headingConverter: JSXConverters<SerializedHeadingNode> = {
     const text = nodesToJSX({ nodes: node.children })
 
     if (node.tag === 'h1') {
-      return <h1 className="text-4xl">{text}</h1>
+      return <h1 className="text-3xl">{text}</h1>
     } else if (node.tag === 'h2') {
       return <h2 className="text-2xl">{text}</h2>
     } else if (node.tag === 'h3') {
