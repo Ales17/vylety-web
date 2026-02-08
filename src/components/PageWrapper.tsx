@@ -4,8 +4,8 @@ interface Props {
 }
 export default function PageWrapper({ children, pageName }: Props) {
   return (
-    <div>
-      <h1 className="text-4xl">{pageName}</h1>
+    <div className="p-2">
+      <h1 className="text-4xl mb-2">{pageName}</h1>
       {children}
     </div>
   )
