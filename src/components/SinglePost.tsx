@@ -3,6 +3,7 @@ import RichTextDefault from './RichTextDefault'
 import { MapIcon, Calendar1Icon, FootprintsIcon } from 'lucide-react'
 import TripInfoItem from './TripInfoItem'
 import { formatDate } from 'lib/string-methods'
+import Gallery from './Gallery'
 interface Props {
   post: Post
 }
@@ -30,8 +31,8 @@ export default function SinglePost({ post }: Props) {
           title="Otevřít trasu"
         />
       </ul>
-
-      <div>{!post.content ? '' : <RichTextDefault data={post.content} />}</div>
+      {post.content && <RichTextDefault data={post.content} />}
+      {post.gallery && <Gallery images={post.gallery} />}
     </div>
   )
 }
