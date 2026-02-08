@@ -15,7 +15,7 @@ export default function Gallery({ images }: GalleryProps) {
     ) ?? []
 
   if (validImages.length === 0) {
-    return <div className="p-4 text-slate-500">Galerie je prázdná</div>
+    return <div className=" text-slate-500">Příspěvek neobsahuje fotky.</div>
   }
 
   return (
