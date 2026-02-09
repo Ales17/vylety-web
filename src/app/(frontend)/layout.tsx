@@ -12,9 +12,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="cs">
       <body>
         <Nav />
-        <main className="m-2 lg:mx-auto lg:max-w-4xl rounded-3xl border  border-white/40 shadow-sm">
-          {children}
-        </main>
+        <main className="m-2 lg:mx-auto lg:max-w-4xl">{children}</main>
       </body>
     </html>
   )
