@@ -7,6 +7,11 @@ export const Posts: CollectionConfig = {
   },
   fields: [
     {
+      name: 'isDraft',
+      type: 'checkbox',
+      defaultValue: true,
+    },
+    {
       name: 'slug',
       type: 'text',
     },
