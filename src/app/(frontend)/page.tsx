@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { z } from 'zod'
 import { headers as nextHeaders } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
@@ -8,7 +9,11 @@ import './styles.css'
 import PostGrid from '@/components/PostGrid'
 import { getPosts } from 'lib/PostService'
 
-export default async function HomePage() {
+interface Props {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+export default async function HomePage({ searchParams }: Props) {
   const headers = await nextHeaders()
 
   const payloadConfig = await config
@@ -19,7 +24,17 @@ export default async function HomePage() {
     redirect('/login')
   }
 
-  let posts = await getPosts()
+  const PageParamSchema = z.coerce.number().int().positive().default(1).catch(1)
+
+  const pageParam = (await searchParams).page
+  const currentPage = PageParamSchema.parse(pageParam)
+
+  let posts = await getPosts({
+    page: currentPage,
+    limit: 1,
+  })
+
+  console.log(posts)
 
   return (
     <>
