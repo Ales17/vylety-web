@@ -10,7 +10,7 @@ interface Props {
 
 export default function SinglePost({ post }: Props) {
   return (
-    <div>
+    <div className="flex flex-col gap-y-4">
       <ul className="flex flex-wrap justify-center gap-x-4 gap-y-2">
         <TripInfoItem
           title="Datum akce"
