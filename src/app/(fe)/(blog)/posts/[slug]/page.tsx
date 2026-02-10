@@ -6,7 +6,7 @@ import { getIdFromSlug } from 'lib/string-methods'
 import { getPostById } from 'lib/PostService'
 import SinglePost from '@/components/SinglePost'
 import PageWrapper from '@/components/PageWrapper'
-
+import { formatDate } from 'lib/string-methods'
 interface Props {
   params: Promise<{ slug: string }>
 }
@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
   const post = await getPostById(entityId)
 
   return (
-    <PageWrapper pageName={post.title}>
+    <PageWrapper pageName={post.title} date={formatDate(post.createdAt)}>
       <SinglePost post={post} />
     </PageWrapper>
   )
