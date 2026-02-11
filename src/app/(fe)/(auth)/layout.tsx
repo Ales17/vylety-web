@@ -2,11 +2,11 @@ import React from 'react'
 import 'dotenv/config'
 import '../styles.css'
 
-const websiteName = process.env.WEBSITE_NAME
+const webTitle = process.env.WEBSITE_TITLE
 
 export const metadata = {
   description: '',
-  title: 'Přihlášení | ' + websiteName,
+  title: 'Přihlášení | ' + webTitle,
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
