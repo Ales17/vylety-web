@@ -12,8 +12,6 @@ const webUrl = process.env.WEBSITE_URL || 'URL'
 const adminEmail = process.env.ADMIN_EMAIL
 
 export async function login(initialState: any, formData: FormData) {
-  'use server'
-
   const rawData = {
     email: String(formData.get('email')),
     // password: String(formData.get('password')),
@@ -45,7 +43,7 @@ export async function login(initialState: any, formData: FormData) {
   }
 
   try {
-    const token = await payload.forgotPassword({
+    token = await payload.forgotPassword({
       collection: 'users', // required
       data: {
         email: validatedFields.data.email,
@@ -53,28 +51,35 @@ export async function login(initialState: any, formData: FormData) {
       disableEmail: true,
       //req: req, // pass a Request object to be provided to all hooks
     })
-    console.log('TOKEN', token)
+    //console.log('TOKEN', token)
 
     //console.log(result)
   } catch (err: any) {
     console.error('ERR', err)
   }
-  const prettyUrl = formatUrl(webUrl)
 
-  if (token == null) {
-    return { message: 'Nemáš oprávnění k přístupu.' }
-  } else {
-    if (prettyUrl) {
-      const loginUrl = `${webUrl}/login/${token}`
-      const email = await payload.sendEmail({
-        to: validatedFields.data.email,
-        subject: `Přihlášení na ${prettyUrl}`,
-        text: `Ahoj, \npro přihlášení na web ${prettyUrl} použij následující odkaz:\n${loginUrl}\nKdyby nefungoval, zkopíruj ho do prohlížeče ručně.`,
-        html: `Ahoj,<br>pro přihlášení na web ${prettyUrl} použij následující odkaz:<br><a href="${webUrl}/login/${token}">${webUrl}/login/${token}</a><br>Kdyby nefungoval, zkopíruj ho do prohlížeče ručně.`,
-      })
-      return { message: 'Zkontroluj si e-mailovou schránku.' }
-    }
+  if (!token) {
+    // Vrátíme stejnou hlášku pro neexistující uživatele i pro chyby - bezpečnostní standard
+    return { message: 'Pokud u nás máte účet, e-mail dorazí během chvíle.' }
   }
+
+
+  try {
+    const prettyUrl = formatUrl(webUrl) || webUrl; // Fallback na celou URL, pokud formátování selže
+
+    await payload.sendEmail({
+      to: validatedFields.data.email,
+      subject: `Přihlášení na ${prettyUrl}`,
+      text: `Ahoj, \npro přihlášení na web ${prettyUrl} použij následující odkaz:\n${webUrl}/login/${token}`,
+      html: `Ahoj,<br>pro přihlášení na web ${prettyUrl} použij odkaz: <a href="${webUrl}/login/${token}">${prettyUrl}</a>`,
+    })
+
+    return { message: 'Zkontroluj si e-mailovou schránku.' }
+  } catch (emailErr) {
+    console.error('Email failed', emailErr)
+    return { message: 'Chyba při odesílání e-mailu.' }
+  }
+
 }
 
 export async function logout() {
