@@ -1,26 +1,39 @@
 services:
-  vylety:
+  app:
     image: node:22.17-alpine
     ports:
       - '3000:3000'
     volumes:
-      - ./data/app:/home/node/app
-      - ./data/node_modules:/home/node/app/node_modules
+      - .:/home/node/app
+      - /home/node/app/node_modules
+      - /home/node/app/.next
     working_dir: /home/node/app/
-    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
+    command: sh -c "npm install && npm run dev"
     depends_on:
-      - vylety-db
+      db:
+        condition: service_healthy
     env_file:
       - .env
-
-  vylety-db:
+    networks:
+      - vylety-network
+  db:
     restart: always
-    image: postgres:18-alpine
+    image: postgres:17-alpine
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
       POSTGRES_DB: ${DB_NAME}
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - ./data/db:/var/lib/postgresql
     ports:
       - '${DB_PORT}:5432'
+    networks:
+      - vylety-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME} -h localhost -p 5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+networks:
+  vylety-network:
+    driver: bridge
