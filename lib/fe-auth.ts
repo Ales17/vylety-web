@@ -11,7 +11,7 @@ const tokenCookieName = 'payload-token'
 const webUrl = process.env.WEBSITE_URL || 'URL'
 const adminEmail = process.env.ADMIN_EMAIL
 
-export async function login(initialState: any, formData: FormData) {
+export async function magicLinkLogin(initialState: any, formData: FormData) {
   const rawData = {
     email: String(formData.get('email')),
     // password: String(formData.get('password')),

@@ -1,5 +1,5 @@
 'use client'
-import { login } from 'lib/fe-auth'
+import { magicLinkLogin } from 'lib/fe-auth'
 import Input from '@/components/Input'
 import Button from '@/components/Button'
 import { useActionState } from 'react'
@@ -8,7 +8,7 @@ const initialState = {
   message: '',
 }
 export default function Login() {
-  const [state, formAction, pending] = useActionState(login, initialState)
+  const [state, formAction, pending] = useActionState(magicLinkLogin, initialState)
 
   return (
     <div>
