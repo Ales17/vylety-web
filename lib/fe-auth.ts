@@ -6,12 +6,13 @@ import config from '@payload-config'
 const payload = await getPayload({ config })
 import { cookies } from 'next/headers'
 import { formatUrl } from './string-methods'
+import { FormLoginState } from '@/types/FormLoginState'
 
 const tokenCookieName = 'payload-token'
 const webUrl = process.env.WEBSITE_URL || 'URL'
 const adminEmail = process.env.ADMIN_EMAIL
 
-export async function passwordLogin(initialState: any, formData: FormData) {
+export async function passwordLogin(initialState: FormLoginState, formData: FormData) {
   const rawData = {
     email: String(formData.get('email')),
     password: String(formData.get('password')),
