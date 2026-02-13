@@ -9,11 +9,15 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
 
   const tokenCookieName = 'payload-token'
 
-  const headers = await nextHeaders()
-
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
-  const { user } = await payload.auth({ headers, canSetHeaders: false })
+  //   const headers = await nextHeaders()
+
+  //   const { user } = await payload.auth({ headers, canSetHeaders: false })
+
+  //   if (user) {
+  //     redirect('/')
+  //   }
 
   const emailToken = slug
 
