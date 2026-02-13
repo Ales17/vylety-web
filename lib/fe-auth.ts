@@ -52,8 +52,18 @@ export async function passwordLogin(initialState: FormLoginState, formData: Form
       showHiddenFields: true,
     })
     //console.log(result)
-  } catch (err: any) {
-    console.error(err)
+  } catch (err: unknown) {
+    let message = 'Došlo k neočekávané chybě.'
+
+    if (err instanceof Error) {
+      message = err.message
+    } else if (typeof err == 'string') {
+      message = err
+    }
+
+    return {
+      message: message,
+    }
   }
 
   if (result && result.token) {
@@ -104,11 +114,18 @@ export async function magicLinkLogin(initialState: FormLoginState, formData: For
       disableEmail: true,
       //req: req, // pass a Request object to be provided to all hooks
     })
-    //console.log('TOKEN', token)
+  } catch (err: unknown) {
+    let message = 'Došlo k neočekávané chybě.'
 
-    //console.log(result)
-  } catch (err: any) {
-    console.error('ERR', err)
+    if (err instanceof Error) {
+      message = err.message
+    } else if (typeof err == 'string') {
+      message = err
+    }
+
+    return {
+      message: message,
+    }
   }
 
   if (!token) {
