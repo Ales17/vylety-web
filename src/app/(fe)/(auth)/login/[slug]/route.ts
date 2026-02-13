@@ -1,4 +1,4 @@
-import { headers as nextHeaders, cookies } from 'next/headers'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
@@ -11,7 +11,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
 
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
-  //   const headers = await nextHeaders()
+  //   const headers = await headers()
 
   //   const { user } = await payload.auth({ headers, canSetHeaders: false })
 
