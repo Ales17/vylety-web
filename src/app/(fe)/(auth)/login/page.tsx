@@ -29,6 +29,7 @@ export default function Login() {
         )}
         <Button label={'Přihlásit se'} variant="primary" />
         <p aria-live="polite">{state?.message}</p>
+        {pending && <>Načítání...</>}
       </form>
     </div>
   )
