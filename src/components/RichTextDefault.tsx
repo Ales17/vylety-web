@@ -1,18 +1,6 @@
-import { Post } from '@/payload-types'
-import Link from 'next/link'
-import {
-  DefaultNodeTypes,
-  SerializedBlockNode,
-  SerializedLinkNode,
-  type DefaultTypedEditorState,
-} from '@payloadcms/richtext-lexical'
+import { DefaultNodeTypes, type DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
-import {
-  RichText,
-  JSXConverters,
-  LinkJSXConverter,
-  JSXConvertersFunction,
-} from '@payloadcms/richtext-lexical/react'
+import { RichText, JSXConvertersFunction } from '@payloadcms/richtext-lexical/react'
 
 type Props = {
   data: DefaultTypedEditorState
@@ -29,6 +17,6 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   ...headingConverter,
 })
 
-export default function RichTextDefault({ data, className, ...rest }: Props) {
+export default function RichTextDefault({ data, className }: Props) {
   return <RichText className={className} converters={jsxConverters} data={data} />
 }
