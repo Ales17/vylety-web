@@ -14,6 +14,14 @@ import { Posts } from './collections/Posts'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const smtpUser = 
+const smtpPass = process.env.SMTP_PASS
+const smtpFromAddress = process.env.SMTP_FROM_ADDRESS
+const smtpFromName = process.env.SMTP_FROM_NAME
+const payloadSecret = process.env.PAYLOAD_SECRET
+
+const dbPath = path.resolve(process.cwd(), 'data/db/db.sqlite')
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -23,13 +31,13 @@ export default buildConfig({
   },
   collections: [Users, Media, Posts],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: payloadSecret || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: sqliteAdapter({
     client: {
-      url: 'file:./data/payload.db',
+      url: `file:${dbPath}`,
     },
     transactionOptions: {},
     //push: true, // IN DEV
@@ -37,14 +45,18 @@ export default buildConfig({
   sharp,
   plugins: [],
   email: nodemailerAdapter({
-    defaultFromAddress: process.env.SMTP_FROM_ADDRESS || '',
-    defaultFromName: process.env.SMTP_FROM_NAME || '',
+    defaultFromAddress: smtpFromAddress || '',
+    defaultFromName: smtpFromName || '',
+
     transportOptions: {
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
+      service: process.env.MAIL_SERVICE || undefined,
+      secure: process.env.MAIL_SECURE || undefined,
+      requireTLS: process.env.MAIL_TLS || undefined,
+      host: process.env.SMTP_HOST || undefined,
+      port: process.env.SMTP_PORT || undefined,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: smtpUser,
+        pass: smtpPass,
       },
     },
   }),
