@@ -1,0 +1,28 @@
+services:
+  fix-permissions:
+    image: alpine
+    user: root
+    volumes:
+      - ./data:/mnt/data
+    # Set owner to 10001 and allows "w" permission recursivelly (-R)
+    command: sh -c "chown -R 1001:1001 /mnt/data && chmod -R 775 /mnt/data"
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vylety-blog
+    restart: always
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./data/db:/app/data/db
+      # Media
+      - ./data/uploads:/app/data/uploads
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+    depends_on:
+      fix-permissions:
+        condition: service_completed_successfully
