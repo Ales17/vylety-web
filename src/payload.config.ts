@@ -1,5 +1,5 @@
-// import { postgresAdapter } from '@payloadcms/db-postgres'
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import 'dotenv/config'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -20,8 +20,6 @@ const smtpFromAddress = process.env.SMTP_FROM_ADDRESS
 const smtpFromName = process.env.SMTP_FROM_NAME
 const payloadSecret = process.env.PAYLOAD_SECRET
 
-const dbPath = path.resolve(process.cwd(), 'data/db/db.sqlite')
-
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -35,11 +33,10 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: sqliteAdapter({
-    client: {
-      url: `file:${dbPath}`,
+  db: postgresAdapter({
+    pool: {
+      connectionString: `postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
     },
-    transactionOptions: {},
     //push: true, // IN DEV
   }),
   sharp,
