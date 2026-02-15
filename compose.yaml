@@ -1,11 +1,22 @@
 services:
-  fix-permissions:
-    image: alpine
-    user: root
+  db:
+    image: postgres:17-alpine
+    container_name: vylety-db
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USER}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
-      - ./data:/mnt/data
-    # Set owner to 10001 and allows "w" permission recursivelly (-R)
-    command: sh -c "chown -R 1001:1001 /mnt/data && chmod -R 775 /mnt/data"
+      - ./data/db:/var/lib/postgresql/data
+
   app:
     build:
       context: .
@@ -15,14 +26,12 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ./data/db:/app/data/db
-      # Media
       - ./data/uploads:/app/data/uploads
-    env_file:
-      - .env
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
+    env_file:
+      - .env
     depends_on:
-      fix-permissions:
-        condition: service_completed_successfully
+      db:
+        condition: service_healthy
