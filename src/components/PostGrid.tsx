@@ -4,7 +4,7 @@ import { ArrowRightIcon } from 'lucide-react'
 import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 import RichTextDefault from './RichTextDefault'
 import LinkButton from './LinkButton'
-import { formatDate } from 'lib/string-methods'
+import { formatDate } from '@/lib/string-methods'
 import Pagination from './Pagination'
 interface Props {
   paginatedDocs: PaginatedDocs<Post>

@@ -2,7 +2,7 @@ import { Post } from '@/payload-types'
 import RichTextDefault from './RichTextDefault'
 import { MapIcon, Calendar1Icon, FootprintsIcon } from 'lucide-react'
 import TripInfoItem from './TripInfoItem'
-import { formatDate } from 'lib/string-methods'
+import { formatDate } from '@/lib/string-methods'
 import Gallery from './Gallery'
 interface Props {
   post: Post

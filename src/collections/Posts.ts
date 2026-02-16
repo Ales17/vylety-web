@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { slugify } from 'lib/string-methods'
+import { slugify } from '@/lib/string-methods'
 export const Posts: CollectionConfig = {
   slug: 'posts',
   access: {

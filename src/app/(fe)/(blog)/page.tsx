@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import PostGrid from '@/components/PostGrid'
-import { getPosts } from 'lib/PostService'
+import { getPosts } from '@/lib/PostService'
 
 interface Props {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>

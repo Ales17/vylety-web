@@ -2,11 +2,11 @@ import { headers as nextHeaders } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
-import { getIdFromSlug } from 'lib/string-methods'
-import { getPostById } from 'lib/PostService'
+import { getIdFromSlug } from '@/lib/string-methods'
+import { getPostById } from '@/lib/PostService'
 import SinglePost from '@/components/SinglePost'
 import PageWrapper from '@/components/PageWrapper'
-import { formatDate } from 'lib/string-methods'
+import { formatDate } from '@/lib/string-methods'
 interface Props {
   params: Promise<{ slug: string }>
 }

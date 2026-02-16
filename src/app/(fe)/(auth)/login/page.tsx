@@ -1,5 +1,5 @@
 'use client'
-import { magicLinkLogin, passwordLogin } from 'lib/fe-auth'
+import { magicLinkLogin, passwordLogin } from '@/lib/fe-auth'
 import Input from '@/components/Input'
 import Button from '@/components/Button'
 import { useActionState } from 'react'

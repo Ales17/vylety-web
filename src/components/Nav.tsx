@@ -1,4 +1,4 @@
-import { logout } from 'lib/fe-auth'
+import { logout } from '@/lib/fe-auth'
 import { LogOutIcon, HouseIcon } from 'lucide-react'
 
 import Link from 'next/link'

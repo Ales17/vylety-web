@@ -21,14 +21,14 @@ services:
     working_dir: /app
     volumes:
       - ./:/app
-      - /app/node_modules
-    command: sh -c "npm install && npm run dev"
+    command: sh -c "npm ci && npm run build && npm start"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - DATABASE_URL=postgres://payload:payload@db:5432/payload
       - PAYLOAD_SECRET=your-secret-key-change-this
     ports:
       - '3000:3000'
+    restart: always
     depends_on:
       db:
         condition: service_healthy
