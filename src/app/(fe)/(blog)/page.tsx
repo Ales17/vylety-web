@@ -7,7 +7,7 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import PostGrid from '@/components/PostGrid'
 import { getPosts } from '@/lib/PostService'
-
+export const dynamic = 'force-dynamic'
 interface Props {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }

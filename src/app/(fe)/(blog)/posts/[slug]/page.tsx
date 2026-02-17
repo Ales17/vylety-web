@@ -7,6 +7,7 @@ import { getPostById } from '@/lib/PostService'
 import SinglePost from '@/components/SinglePost'
 import PageWrapper from '@/components/PageWrapper'
 import { formatDate } from '@/lib/string-methods'
+export const dynamic = 'force-dynamic'
 interface Props {
   params: Promise<{ slug: string }>
 }
